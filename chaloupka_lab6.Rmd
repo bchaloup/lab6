@@ -1,0 +1,72 @@
+---
+title: "chaloupka_lab6"
+author: "Ben Chaloupka"
+date: "10/22/2020"
+output: 
+  html_document:
+    highlight: kate
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(fig.width = 6.5,
+                      fig.height = 4,
+                      echo = F,
+                      warning = F,
+                      message = F)
+
+library(here)
+library(rio)
+library(tidyverse)
+
+theme_set(theme_minimal())
+```
+
+## 3
+
+```{r}
+data63 <- janitor::clean_names(characterize(import(here("ecls-k_samp.sav"))))
+
+data63 %>% 
+  filter(ethnic %in% c("BLACK OR AFRICAN AMERICAN, NON-HISPANIC", "HISPANIC, RACE NOT SPECIFIED", "HISPANIC, RACE SPECIFIED", "WHITE, NON-HISPANIC")) %>% 
+  ggplot(aes(t1mscale, t2mscale)) +
+  facet_wrap(~ethnic) +
+  geom_point() +
+  geom_smooth(aes(color = school_type), method = "lm") +
+  theme(text = element_text(size = 9))
+```
+
+## 4
+
+```{r}
+t1mean <- mean(data63$t1mscale, na.rm = TRUE)
+t1sd <- sd(data63$t1mscale, na.rm = TRUE)
+t2mean <- mean(data63$t2mscale, na.rm = TRUE)
+t2sd <- sd(data63$t2mscale, na.rm = TRUE)
+```
+
+The mean of t1mscale is `r round(t1mean, 2)` and its standard deviation is `r round(t1sd, 2)`. The mean of t2mscale is `r round(t2mean, 2)` and its standard deviation is `r round(t2sd, 2)`. The difference between the means at the two timepoints is `r round(t2mean - t1mean, 2)`.
+
+## 5
+
+### How to Load Data
+
+There are a couple of packages that help us easily load data into our R environment. These are the Rio and Here packages. Let's begin by loading these packages.
+
+```{r eval=F, echo=T}
+library(here)
+library(rio)
+```
+
+Next, we will use the Import function from Rio and the Here function from Here to import our data. The Import function automatically detects the format of the data file and chooses the appropriate function to load it with. The Here function makes finding the file easier, as it uses the R Project root directory to begin searching for the file. For example, let's import the data file 'ecls-k_samp.sav' from the same directory that our project is located in. It should look something like this:
+
+```{r eval=F, echo=T}
+data65 <- import(here("ecls-k_samp.sav"))
+```
+
+We are saving the data as 'data65' (this is the 6th lab and question 5). The Here function locates the data file easily, while the import function reads the file extension (.sav) and selects the appropriate function to read it in. While this may be good enough in some cases, there are a couple of extra steps that may aid in the process of loading data. First, we can use the function Clean_Names from the Janitor package to convert all variable names to snake_case. We like snake_case, so this is usually a good idea. We could load this library separately, but since this is likely the only function we will use from this library, we could alternatively just call it using 'janitor::clean_names()'. Finally, there may be some factor variables that SPSS (.sav files are SPSS format) has coded numerically. The Characterize function from Rio handles this by relabeling the factor variables with their character names rather than a numeric value. This makes it easier to read than trying to decipher if 2 is for Male and 1 is for Female or vice versa. We could wrap all of this into a single line of code as follows:
+
+```{r eval=F, echo=T}
+data65 <- janitor::clean_names(characterize(import(here("ecls-k_samp.sav"))))
+```
+
+Now we have loaded in our data, converted our variable names to snake_case, and (because this was an SPSS file) reverted factor variable values to characters. We are ready to work with the data!
