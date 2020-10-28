@@ -25,7 +25,7 @@ theme_set(theme_minimal())
 
 ```{r}
 data63 <- janitor::clean_names(characterize(import(here("ecls-k_samp.sav"))))
-
+#Hello!
 data63 %>% 
   filter(ethnic %in% c("BLACK OR AFRICAN AMERICAN, NON-HISPANIC", "HISPANIC, RACE NOT SPECIFIED", "HISPANIC, RACE SPECIFIED", "WHITE, NON-HISPANIC")) %>% 
   ggplot(aes(t1mscale, t2mscale)) +
