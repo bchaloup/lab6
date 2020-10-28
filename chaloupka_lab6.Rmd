@@ -38,6 +38,9 @@ data63 %>%
 ## 4
 
 ```{r}
+a <- 1 + 1
+
+
 t1mean <- mean(data63$t1mscale, na.rm = TRUE)
 t1sd <- sd(data63$t1mscale, na.rm = TRUE)
 t2mean <- mean(data63$t2mscale, na.rm = TRUE)
