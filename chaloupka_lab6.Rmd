@@ -70,3 +70,11 @@ data65 <- janitor::clean_names(characterize(import(here("ecls-k_samp.sav"))))
 ```
 
 Now we have loaded in our data, converted our variable names to snake_case, and (because this was an SPSS file) reverted factor variable values to characters. We are ready to work with the data!
+
+
+
+## 10/28/2020
+
+I am making a change to this file. Also, Sara Weston (D*) for president!!!
+
+*Duck Party
